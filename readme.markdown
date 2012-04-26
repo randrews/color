@@ -36,6 +36,11 @@ Extending:
 
 I figured out most of how to write this from the excellent [Wikipedia page on ANSI control codes](http://en.wikipedia.org/wiki/ANSI_escape_code). If you want to extend it, that would be a good place to start. And send me a pull request!
 
+Portability:
+-----------
+
+This doesn't work on Windows at all, and it would be a really nontrivial effort to port it.
+
 License:
 ----------
 
