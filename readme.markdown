@@ -44,4 +44,4 @@ This doesn't work on Windows at all, and it would be a really nontrivial effort 
 License:
 ----------
 
-Copyright 2012 by Ross Andrews, released under the GNU General Public License.
+Copyright 2012 by Ross Andrews, released under the [GNU Lesser General Public License](http://www.gnu.org/licenses/lgpl.txt).
