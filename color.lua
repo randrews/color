@@ -51,6 +51,7 @@
 module(..., package.seeall)
 
 local esc = string.char(27, 91)
+
 local names = {'black', 'red', 'green', 'yellow', 'blue', 'pink', 'cyan', 'white'}
 local hi_names = {'BLACK', 'RED', 'GREEN', 'YELLOW', 'BLUE', 'PINK', 'CYAN', 'WHITE'}
 
@@ -80,12 +81,24 @@ setmetatable(fg, {__call = fg256})
 setmetatable(bg, {__call = bg256})
 
 reset = esc .. '0m'
+clear = esc .. '2J'
 
 bold = esc .. '1m'
 faint = esc .. '2m'
 normal = esc .. '22m'
 invert = esc .. '7m'
 underline = esc .. '4m'
+
+hide = esc .. '?25l'
+show = esc .. '?25h'
+
+function move(x, y)
+   return esc .. y .. ';' .. x .. 'H'
+end
+
+home = move(1, 1)
+
+--------------------------------------------------
 
 function chart(ch,col)
    local cols = '0123456789abcdef'
