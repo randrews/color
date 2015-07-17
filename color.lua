@@ -48,25 +48,26 @@
 -- of those things, then you've created a derivative work of this library and you
 -- have to release the modifications you made under this same license.
 
-module(..., package.seeall)
+local color = { _NAME = "color" }
+local _M = color
 
 local esc = string.char(27, 91)
 
 local names = {'black', 'red', 'green', 'yellow', 'blue', 'pink', 'cyan', 'white'}
 local hi_names = {'BLACK', 'RED', 'GREEN', 'YELLOW', 'BLUE', 'PINK', 'CYAN', 'WHITE'}
 
-fg, bg = {}, {}
+color.fg, color.bg = {}, {}
 
 for i, name in ipairs(names) do
-   fg[name] = esc .. tostring(30+i-1) .. 'm'
-   _M[name] = fg[name]
-   bg[name] = esc .. tostring(40+i-1) .. 'm'
+   color.fg[name] = esc .. tostring(30+i-1) .. 'm'
+   _M[name] = color.fg[name]
+   color.bg[name] = esc .. tostring(40+i-1) .. 'm'
 end
 
 for i, name in ipairs(hi_names) do
-   fg[name] = esc .. tostring(90+i-1) .. 'm'
-   _M[name] = fg[name]
-   bg[name] = esc .. tostring(100+i-1) .. 'm'   
+   color.fg[name] = esc .. tostring(90+i-1) .. 'm'
+   _M[name] = color.fg[name]
+   color.bg[name] = esc .. tostring(100+i-1) .. 'm'   
 end
 
 local function fg256(_,n)
@@ -77,34 +78,34 @@ local function bg256(_,n)
    return esc .. "48;5;" .. n .. 'm'   
 end
 
-setmetatable(fg, {__call = fg256})
-setmetatable(bg, {__call = bg256})
+setmetatable(color.fg, {__call = fg256})
+setmetatable(color.bg, {__call = bg256})
 
-reset = esc .. '0m'
-clear = esc .. '2J'
+color.reset = esc .. '0m'
+color.clear = esc .. '2J'
 
-bold = esc .. '1m'
-faint = esc .. '2m'
-normal = esc .. '22m'
-invert = esc .. '7m'
-underline = esc .. '4m'
+color.bold = esc .. '1m'
+color.faint = esc .. '2m'
+color.normal = esc .. '22m'
+color.invert = esc .. '7m'
+color.underline = esc .. '4m'
 
-hide = esc .. '?25l'
-show = esc .. '?25h'
+color.hide = esc .. '?25l'
+color.show = esc .. '?25h'
 
-function move(x, y)
+function color.move(x, y)
    return esc .. y .. ';' .. x .. 'H'
 end
 
-home = move(1, 1)
+color.home = color.move(1, 1)
 
 --------------------------------------------------
 
-function chart(ch,col)
+function color.chart(ch,col)
    local cols = '0123456789abcdef'
 
    ch = ch or ' '
-   col = col or fg.black
+   col = col or color.fg.black
    local str = color.reset .. color.bg.WHITE .. col
 
    for y = 0, 15 do
@@ -120,7 +121,7 @@ function chart(ch,col)
    return str .. color.reset
 end
 
-function test()
+function color.test()
    print(color.reset .. color.bg.green .. color.fg.RED .. "This is bright red on green" .. color.reset)
    print(color.invert .. "This is inverted..." .. color.reset .. " And this isn't.")
    print(color.fg(0xDE) .. color.bg(0xEE) .. "You can use xterm-256 colors too!" .. color.reset)
@@ -128,3 +129,5 @@ function test()
    print(color.bold .. color.fg.BLUE .. color.bg.blue .. "Miss your " .. color.fg.RED .. "C-64" .. color.fg.BLUE .. "?" .. color.reset)
    print("Try printing " .. color.underline .. _M._NAME .. ".chart()" .. color.reset)
 end
+
+return color
