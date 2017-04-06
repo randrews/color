@@ -48,25 +48,25 @@
 -- of those things, then you've created a derivative work of this library and you
 -- have to release the modifications you made under this same license.
 
-local color = {}
+local color = { _NAME = "color" }
+local _M = color
 
 local esc = string.char(27, 91)
 
 local names = {'black', 'red', 'green', 'yellow', 'blue', 'pink', 'cyan', 'white'}
 local hi_names = {'BLACK', 'RED', 'GREEN', 'YELLOW', 'BLUE', 'PINK', 'CYAN', 'WHITE'}
 
-color.fg = {}
-color.bg = {}
+color.fg, color.bg = {}, {}
 
 for i, name in ipairs(names) do
    color.fg[name] = esc .. tostring(30+i-1) .. 'm'
-   color[name] = color.fg[name]
+   _M[name] = color.fg[name]
    color.bg[name] = esc .. tostring(40+i-1) .. 'm'
 end
 
 for i, name in ipairs(hi_names) do
    color.fg[name] = esc .. tostring(90+i-1) .. 'm'
-   color[name] = color.fg[name]
+   _M[name] = color.fg[name]
    color.bg[name] = esc .. tostring(100+i-1) .. 'm'   
 end
 
@@ -127,7 +127,7 @@ function color.test()
    print(color.fg(0xDE) .. color.bg(0xEE) .. "You can use xterm-256 colors too!" .. color.reset)
    print("And also " .. color.bold .. "BOLD" .. color.normal .. " if you want.")
    print(color.bold .. color.fg.BLUE .. color.bg.blue .. "Miss your " .. color.fg.RED .. "C-64" .. color.fg.BLUE .. "?" .. color.reset)
-   print("Try printing " .. color.underline .. 'color' .. ".chart()" .. color.reset)
+   print("Try printing " .. color.underline .. _M._NAME .. ".chart()" .. color.reset)
 end
 
 return color
