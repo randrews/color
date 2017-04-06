@@ -116,7 +116,7 @@ function color.chart(ch,col)
          str = str .. color.bg.black .. color.fg.WHITE .. lbl
          str = str .. color.bg(x+y*16) .. col .. ch
       end
-      str = str .. color.bg.black .. "\n"
+      str = str .. color.reset .. "\n"
    end
    return str .. color.reset
 end
